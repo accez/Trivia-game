@@ -1,6 +1,7 @@
 <script setup>
   import { reactive,ref } from 'vue';
     const currentQuestion = ref(0)
+    const points = ref(0)
     
     const questions = reactive({
       results: [
@@ -36,8 +37,6 @@
   const changeQuestion = () =>{
     if(currentQuestion.value + 1 < questions.results.length){
       currentQuestion.value++
-    }else{
-      return
     }
   }
 </script>
