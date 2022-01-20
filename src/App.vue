@@ -1,8 +1,12 @@
 <script setup>
+import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
+
 </script>
 
 <template>
-  <div class="container" />
+  <div class="container"> 
+    <QuestionScreen />
+  </div>
 </template>
 
 <style>
