@@ -1,8 +1,7 @@
 <script setup>
+    import QuestionComponent from './QuestionComponent.vue';
   import { reactive,ref } from 'vue';
     const currentQuestion = ref(0)
-    const points = ref(0)
-    
     const questions = reactive({
       results: [
         {
@@ -34,20 +33,20 @@
       ]
   })
 
+  /**
+   * Changes the question.
+   * Can't change more then question array length.
+   */
   const changeQuestion = () =>{
     if(currentQuestion.value + 1 < questions.results.length){
       currentQuestion.value++
     }
   }
+
 </script>
 
 <template>
-  <h3>
-    {{ questions.results[currentQuestion].question }}
-  </h3>
-  <button @click="changeQuestion">
-    Change Question
-  </button>
+  <QuestionComponent v-bind="questions.results[currentQuestion]" />
 </template>
 
 <style scoped>
