@@ -1,7 +1,9 @@
 <script setup>
 import { ref, reactive } from 'vue'
+import * as databaseHelper from './ApiDataFetcher.js';
 
-const userName = ref("");
+
+
 //Todo: category list fetched from api and passed into reactive method.
 const categoryList = reactive(["Sport","Science"]);
 let chosenCategory = "";
@@ -17,12 +19,32 @@ const onDifficultyChanged = (event) => {
   console.log(chosenDifficulty);
 }
 
+const inputedUsername = ref("");
 const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;
   console.log(chosenCategory);
 }
 
 const onUsernameClicked = () => {
+
+  let userExist = false;
+  databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
+    data.forEach(element => {
+      if(element.username === inputedUsername.value)
+      {
+        console.log("finns");
+        userExist = true;
+      }
+      
+    });
+
+    if(!userExist)
+    {
+      databaseHelper.post(inputedUsername.value,0);
+    }
+  });
+
+
   // Call Api check if user exists.
   // If user dont exist save user to- api database.
   console.log("Database check");
@@ -41,7 +63,7 @@ const onScreenClicked = () => {
     <h1> Start Screen </h1>
     <h2>Please enter your user name</h2>
     <input
-      v-model="userName"
+      v-model="inputedUsername"
       type="text"
     >
     <button @click="onUsernameClicked">
