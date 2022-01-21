@@ -1,17 +1,22 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import * as databaseHelper from './ApiDataFetcher.js';
 
+let categories = ref([]);
+
+databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) => {
+  data.trivia_categories.forEach((category) =>
+  {
+    categories.value.push(category.name);
+  })
+})
 
 
-//Todo: category list fetched from api and passed into reactive method.
-const categoryList = reactive(["Sport","Science"]);
 let chosenCategory = "";
-
 const chosenNumberOfQuestions = ref("");
 
-//Todo: difficulty list fetched from api and passed into reactive method below.
-const difficultyList = reactive(["Easy", "Medium", "Hard"]);
+//Todo: difficulty list categories from api and passed into reactive method below.
+const difficultyList = ref(["Easy", "Medium", "Hard"]);
 let chosenDifficulty = "";
 
 const onDifficultyChanged = (event) => {
@@ -51,7 +56,8 @@ const onUsernameClicked = () => {
 }
 
 const onScreenClicked = () => {
-  console.log("clicked on screen");
+  //Screen click, switch page if all is filled in.
+  //console.log("clicked on screen");
 }
 </script>
 
@@ -79,7 +85,7 @@ const onScreenClicked = () => {
         Choose
       </option>
       <option
-        v-for="category in categoryList"
+        v-for="category in categories"
         :key="category"
       >
         {{ category }}
