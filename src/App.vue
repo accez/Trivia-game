@@ -1,8 +1,11 @@
 <script setup>
+import StartScreen from './features/StartScreen.vue';
 </script>
 
 <template>
-  <div class="container" />
+  <div class="container">
+    <StartScreen />
+  </div>
 </template>
 
 <style>
