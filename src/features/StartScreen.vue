@@ -24,14 +24,11 @@ let chosenDifficulty = "";
 
 const onDifficultyChanged = (event) => {
   chosenDifficulty = event.target.value;
-  console.log(chosenDifficulty);
 };
 
 const inputedUsername = ref("");
 const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;
-  console.log(chosenCategory);
-  
 };
 
 const onUsernameClicked = () => {
@@ -51,7 +48,7 @@ const onUsernameClicked = () => {
     {
       if(inputedUsername.value === "") return;
       alert("Welcome " + inputedUsername.value);
-      databaseHelper.post(inputedUsername.value,0);
+      databaseHelper.postUser(inputedUsername.value,0);
     }
   });
 };
@@ -62,14 +59,9 @@ const onScreenClicked = () => {
   console.log("clicked on screen");
 
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
-  console.log(inputedUsername.value);
-  console.log(chosenCategory);
-  console.log(chosenNumberOfQuestions.value);
-  console.log(chosenDifficulty);
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
-    console.log(questionsApiUrl);
   }
   else
   {

@@ -1,13 +1,15 @@
 export function fetchDataFromApi(apiUrl, callBack)
 {
-  fetch(apiUrl).then((response) => {
-    return response.json();
-  }).then((jsonData) => {
-    callBack(jsonData);
-  });
+  fetch(apiUrl)
+    .then((response) => {
+      return response.json();
+    })
+    .then((jsonData) => {
+      callBack(jsonData);
+    });
 }
 
-export function post(username,score)
+export function postUser(username,score)
 {
   const apiURL = 'https://trivia-game-users.herokuapp.com';
   const apiKey = 'SimonLove';
@@ -31,7 +33,6 @@ export function post(username,score)
     })
     .then(newUser => {
       // newUser is the new user with an id
-      console.log(newUser);
     })
     .catch(error => {
     });
