@@ -1,38 +1,30 @@
 <script setup>
-import { onMounted, onUpdated, ref } from 'vue';
-const answers = ref([])
+import { onMounted, ref } from 'vue';
+const emit = defineEmits(['clicked']);
 const props = defineProps({
- results:{
-  type:Array,
-  required:true
- },
- currentQuestion:{
-  type:Number,
-  required: true
- }
-})
+  answers:{
+    type:Array,
+    required:true
+  },
+  question:{
+    type: String,
+    required:true
+  }
+});
 
-const shuffleAnswers = (array) =>{
- return array.sort( ()=>Math.random()-0.5 );
-}
+const handleClick = () =>{
+  emit('clicked');
 
-
-onMounted(() =>{
- answers.value = [...props.results[props.currentQuestion].incorrect_answers,props.results[props.currentQuestion].correct_answer]
- shuffleAnswers(answers.value)
-})
-
-onUpdated(()=>{
-
-})
+};
 
 </script>
 
 <template>
-  <h3>{{ props.results[currentQuestion].question }}</h3>
+  <h3>{{ props.question }}</h3>
   <button
-    v-for="(answer, i) in answers"
+    v-for="(answer, i) in props.answers.value"
     :key="i"
+    @click="handleClick"
   >
     {{ answer }}
   </button>
