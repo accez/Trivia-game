@@ -4,6 +4,7 @@ import * as databaseHelper from './ApiDataFetcher.js';
 
 const emits = defineEmits(['questionsApiUrl']);
 const chosenNumberOfQuestions = ref("");
+let buttonClicked = false;
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -31,22 +32,26 @@ const onDifficultyChanged = (event) => {
 const inputedUsername = ref("");
 
 const onUsernameClicked = () => {
-
   let userExist = false;
+  console.log("clicked");
   databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
     data.forEach(element => {
+      console.log(inputedUsername.value + " " + element.username);
       if(element.username === inputedUsername.value)
       {
         if(inputedUsername.value === "") return;
         alert("Welcome back " + inputedUsername.value + "!");
         userExist = true;
+        return;
       }
     });
 
     if(!userExist)
     {
       if(inputedUsername.value === "") return;
+
       alert("Welcome " + inputedUsername.value);
+
       databaseHelper.postUser(inputedUsername.value,0);
     }
   });
@@ -54,25 +59,37 @@ const onUsernameClicked = () => {
 
 let questionsApiUrl = "";
 const onScreenClicked = () => {
-  //Screen click, switch page if all is filled in.
-  console.log("clicked on screen");
-
+  console.log("screen clicked");
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
+    console.log("Vidare");
   }
   else
   {
-    alert("Please fill in all choices!");
+    setTimeout(() => 
+    {
+      console.log(buttonClicked);
+      if(!buttonClicked)
+      {
+        alert("Please fill in all choices!");
+      }
+      buttonClicked = false;
+    } ,500);
   }
+};  
+
+const onButtonClicked = () => {
+  buttonClicked = true;
+  console.log(buttonClicked + "button clicked");
 };
 </script>
 
 <template>
   <div
     class="screen-div"
-    @click="bla"
+    @click="onScreenClicked"
   >
     <h1> Start Screen </h1>
     <h2>Please enter your user name</h2>
@@ -80,6 +97,7 @@ const onScreenClicked = () => {
       v-model="inputedUsername"
       type="text"
       @keyup="validateUsernameInput"
+      @click="onButtonClicked"
     >
     <button @click="onUsernameClicked">
       Enter
@@ -89,6 +107,7 @@ const onScreenClicked = () => {
     <select
       name="select-category"
       @change="onCategoryChanged"
+      @click="onButtonClicked"
     >
       <option value="">
         Choose
@@ -107,12 +126,14 @@ const onScreenClicked = () => {
       type="number"
       max="50"
       min="1"
+      @click="onButtonClicked"
     >
 
     <h3>Select Difficulty</h3>
     <select
       name="select-difficulty"
       @change="onDifficultyChanged"
+      @click="onButtonClicked"
     >
       <option value="">
         Choose
@@ -126,7 +147,7 @@ const onScreenClicked = () => {
     </select>
     <br>
     <br>
-    <button @click="onScreenClicked">
+    <button @click="onScreenClicked,onButtonClicked">
       start game
     </button>
   </div>
