@@ -38,24 +38,25 @@ const addAnswersToArray = (array, incorrectAnswers, correctAnswers) =>{
   return array.value = [...incorrectAnswers,correctAnswers];
 };
 
-
 const changeQuestion = () =>{
   if(currentQuestion.value + 1 < questions.results.length){
     currentQuestion.value++;
-    addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+    let changedArray = addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+    shuffleAnswers(changedArray);
   }
-};
-
-const shuffleAnswers = (array) =>{
-  return array.sort(()=> Math.random() -0.5 );
 };
 
 const emit = () =>{
   changeQuestion();
 };
 
+const shuffleAnswers = (array) =>{
+  return array.sort( ()=>Math.random()-0.5 );
+};
+
 onBeforeMount(() =>{
-  addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+  let mountedArray = addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+  shuffleAnswers(mountedArray);
 });
 
 </script>
