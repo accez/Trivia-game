@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
 const emits = defineEmits(['questionsApiUrl']);
+const chosenNumberOfQuestions = ref("");
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -16,20 +17,18 @@ databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) =
 });
 
 let chosenCategory = "";
-const chosenNumberOfQuestions = ref("");
+const onCategoryChanged = (event) => {
+  chosenCategory = event.target.value;
+};
 
-//Todo: difficulty list categories from api and passed into reactive method below.
+
 const difficultyList = ref(["easy", "medium", "hard"]);
 let chosenDifficulty = "";
-
 const onDifficultyChanged = (event) => {
   chosenDifficulty = event.target.value;
 };
 
 const inputedUsername = ref("");
-const onCategoryChanged = (event) => {
-  chosenCategory = event.target.value;
-};
 
 const onUsernameClicked = () => {
 
@@ -67,10 +66,6 @@ const onScreenClicked = () => {
   {
     alert("Please fill in all choices!");
   }
-};
-
-const validateUsernameInput = () => {
-  
 };
 </script>
 
