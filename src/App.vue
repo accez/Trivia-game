@@ -14,16 +14,27 @@ const fetchQuestions = (url) =>
   databaseHelper.fetchDataFromApi(url,(fetchedData) =>
   {
     questionsData.value = fetchedData;
-    isTheQuestionFetched();
+    isDataFetched(questionsData.value);
   });
 };
 
+/**
+ * Sets isStartScreen to false.
+ */
 const startScreenNotShowing = () =>{
   return isStartScreen.value = false;
 };
 
-const isTheQuestionFetched = () =>{
-  if(questionsData.value.results.length > 0){
+/**
+ * Check if the data have been fetched
+ * 
+ * Function to see if the data you have provided has loaded.
+ * If the data has loaded it sets isFetching to false.
+ * 
+ * @param {Array} data The data you want to check
+ */
+const isDataFetched = (data) =>{
+  if(data.results.length > 0){
     isFetching.value = false;
   }
 };
