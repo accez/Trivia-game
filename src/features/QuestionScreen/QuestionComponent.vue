@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted, ref } from 'vue';
 const emit = defineEmits(['clicked']);
 const props = defineProps({
   answers:{
