@@ -12,17 +12,10 @@ const props = defineProps({
     }
 })
 
-
-
-const shuffleAnswers = (array, correctAnswer) =>{
-    array.push(correctAnswer)
-    return array.sort( ()=>Math.random()-0.5 );
-}
-
-onMounted(() =>{
-    answers.value.push(shuffleAnswers(props.results[props.currentQuestion].incorrect_answers,props.results[props.currentQuestion].correct_answer))
+onUpdated(()=>{
+answers.value = [...props.results[props.currentQuestion].incorrect_answers,props.results[props.currentQuestion].correct_answer]
+console.log(question.value)
 })
-
 
 </script>
 
