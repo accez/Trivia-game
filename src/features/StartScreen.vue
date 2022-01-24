@@ -30,18 +30,17 @@ const onDifficultyChanged = (event) => {
 };
 
 const inputedUsername = ref("");
-
+let currentUserId = 0;
 const onUsernameClicked = () => {
   let userExist = false;
-  console.log("clicked");
   databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
     data.forEach(element => {
-      console.log(inputedUsername.value + " " + element.username);
       if(element.username === inputedUsername.value)
       {
         if(inputedUsername.value === "") return;
         alert("Welcome back " + inputedUsername.value + "!");
         userExist = true;
+        currentUserId = element.id;
         return;
       }
     });
@@ -52,14 +51,14 @@ const onUsernameClicked = () => {
 
       alert("Welcome " + inputedUsername.value);
 
-      databaseHelper.postUser(inputedUsername.value,0);
+      databaseHelper.postUser(inputedUsername.value,0, (Id) => currentUserId = Id);
+      return;
     }
   });
 };
 
 let questionsApiUrl = "";
 const onScreenClicked = () => {
-  console.log("screen clicked");
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
@@ -70,7 +69,6 @@ const onScreenClicked = () => {
   {
     setTimeout(() => 
     {
-      console.log(buttonClicked);
       if(!buttonClicked)
       {
         alert("Please fill in all choices!");
@@ -82,7 +80,6 @@ const onScreenClicked = () => {
 
 const onButtonClicked = () => {
   buttonClicked = true;
-  console.log(buttonClicked + "button clicked");
 };
 </script>
 
@@ -151,6 +148,8 @@ const onButtonClicked = () => {
       start game
     </button>
   </div>
+  <br>
+  <button>Update highscore</button>
 </template>
 
 <style scoped>
