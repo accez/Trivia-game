@@ -1,8 +1,8 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, defineComponent } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
-const emits = defineEmits(['questionsApiUrl']);
+const emits = defineEmits(['questionsApiUrl',"is-start-screen"]);
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -69,7 +69,7 @@ const onScreenClicked = () => {
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
-    console.log(questionsApiUrl);
+    emits("is-start-screen");
   }
   else
   {
