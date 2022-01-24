@@ -4,7 +4,8 @@ module.exports = {
   ],
   rules: {
     "vue/prop-name-casing": ["camelCase" | "snake_case"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "semi": [2, "always"]
 
   }
-}
+};
