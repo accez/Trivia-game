@@ -15,7 +15,6 @@ databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) =
   })
 })
 
-
 let chosenCategory = "";
 const chosenNumberOfQuestions = ref("");
 
@@ -42,30 +41,45 @@ const onUsernameClicked = () => {
     data.forEach(element => {
       if(element.username === inputedUsername.value)
       {
-        console.log("finns");
+        if(inputedUsername.value === "") return;
+        alert("Welcome back " + inputedUsername.value + "!");
         userExist = true;
       }
-      
     });
 
     if(!userExist)
     {
+      if(inputedUsername.value === "") return;
+      alert("Welcome " + inputedUsername.value);
       databaseHelper.post(inputedUsername.value,0);
     }
   });
 }
 
+let questionsApiUrl = "";
 const onScreenClicked = () => {
   //Screen click, switch page if all is filled in.
   console.log("clicked on screen");
 
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
-
-  console.log(questionsApiUrl);
-  emits('questionsApiUrl', questionsApiUrl);
+  console.log(inputedUsername.value);
+  console.log(chosenCategory);
+  console.log(chosenNumberOfQuestions.value);
+  console.log(chosenDifficulty);
+  if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
+  {
+    emits('questionsApiUrl', questionsApiUrl);
+    console.log(questionsApiUrl);
+  }
+  else
+  {
+    alert("Please fill in all choices!")
+  }
 }
 
-let questionsApiUrl = "";
+const validateUsernameInput = () => {
+  
+}
 </script>
 
 <template>
@@ -78,6 +92,7 @@ let questionsApiUrl = "";
     <input
       v-model="inputedUsername"
       type="text"
+      @keyup="validateUsernameInput"
     >
     <button @click="onUsernameClicked">
       Enter
