@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
-const emits = defineEmits(['questionsApiUrl']);
+const emits = defineEmits(['questionsApiUrl','currentUserId']);
 const chosenNumberOfQuestions = ref("");
 let buttonClicked = false;
 
@@ -63,6 +63,7 @@ const onScreenClicked = () => {
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
+    emits('currentUserId', currentUserId);
     console.log("Vidare");
   }
   else
@@ -149,7 +150,6 @@ const onButtonClicked = () => {
     </button>
   </div>
   <br>
-  <button>Update highscore</button>
 </template>
 
 <style scoped>
