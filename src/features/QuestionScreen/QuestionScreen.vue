@@ -12,10 +12,21 @@ const props = defineProps({
 const currentQuestion = ref(0);
 const answers = ref([]);
 
+/**
+ * Adds answers to given array
+ * 
+ * @param {Array} array The array 
+ * @param {*} incorrectAnswers The incorrect answers
+ * @param {*} correctAnswers The correct answer
+ */
 const addAnswersToArray = (array, incorrectAnswers, correctAnswers) =>{
   return array.value = [...incorrectAnswers,correctAnswers];
 };
 
+/**
+ * Changes the question
+ * Function that changes the question adds the answers to an array and shuffles them.
+ */
 const changeQuestion = () =>{
   if(currentQuestion.value + 1 < props.questionData.results.length){
     currentQuestion.value++;
@@ -27,6 +38,12 @@ const changeQuestion = () =>{
 const emit = () =>{
   changeQuestion();
 };
+
+/**
+ * Shuffles the answers
+ * 
+ * @param {Array} array The array of answers
+ */
 
 const shuffleAnswers = (array) =>{
   return array.sort( () => Math.random() - 0.5);
