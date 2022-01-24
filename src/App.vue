@@ -1,20 +1,20 @@
 <script setup>
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
-import { ref, reactive, onMounted, onUpdated } from 'vue';
+import { ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questions component
-let questionsData = ref([]);
+let questionsData =  ref([]);
 const isStartScreen = ref(true);
+const isFetching = ref(true);
 
 const fetchQuestions = (url) =>
 {
   databaseHelper.fetchDataFromApi(url,(fetchedData) =>
   {
     questionsData.value = fetchedData;
-    console.log(fetchedData);
-    setTimeout(() => console.log(questionsData.value), 1000);
+    isTheQuestionFetched();
   });
 };
 
@@ -22,7 +22,13 @@ const startScreenNotShowing = () =>{
   return isStartScreen.value = false;
 };
 
-</script>
+const isTheQuestionFetched = () =>{
+  if(questionsData.value.results.length > 0){
+    isFetching.value = false;
+  }
+};
+
+</script> 
 
 <template>
   <div class="container">
@@ -31,9 +37,12 @@ const startScreenNotShowing = () =>{
       @questionsApiUrl="fetchQuestions"
       @is-start-screen="startScreenNotShowing"
     />
+    <div v-else-if="isFetching === true">
+      loading...
+    </div>
     <QuestionScreen
       v-else
-      :data="questionsData"
+      :question-data="questionsData"
     />
   </div>
 </template>
