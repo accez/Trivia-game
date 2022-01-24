@@ -2,12 +2,16 @@
 import { ref, reactive, onMounted } from 'vue'
 import * as databaseHelper from './ApiDataFetcher.js';
 
+const emits = defineEmits(['questionsApiUrl']);
+
 let categories = ref([]);
+let categoriesKeyValuePair = {};
 
 databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) => {
-  data.trivia_categories.forEach((category) =>
+  data.trivia_categories.forEach((category, index) =>
   {
     categories.value.push(category.name);
+    categoriesKeyValuePair[category.name] = category.id;
   })
 })
 
@@ -16,7 +20,7 @@ let chosenCategory = "";
 const chosenNumberOfQuestions = ref("");
 
 //Todo: difficulty list categories from api and passed into reactive method below.
-const difficultyList = ref(["Easy", "Medium", "Hard"]);
+const difficultyList = ref(["easy", "medium", "hard"]);
 let chosenDifficulty = "";
 
 const onDifficultyChanged = (event) => {
@@ -28,6 +32,7 @@ const inputedUsername = ref("");
 const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;
   console.log(chosenCategory);
+  
 }
 
 const onUsernameClicked = () => {
@@ -48,23 +53,25 @@ const onUsernameClicked = () => {
       databaseHelper.post(inputedUsername.value,0);
     }
   });
-
-
-  // Call Api check if user exists.
-  // If user dont exist save user to- api database.
-  console.log("Database check");
 }
 
 const onScreenClicked = () => {
   //Screen click, switch page if all is filled in.
-  //console.log("clicked on screen");
+  console.log("clicked on screen");
+
+  questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
+
+  console.log(questionsApiUrl);
+  emits('questionsApiUrl', questionsApiUrl);
 }
+
+let questionsApiUrl = "";
 </script>
 
 <template>
   <div
     class="screen-div"
-    @click="onScreenClicked"
+    @click="bla"
   >
     <h1> Start Screen </h1>
     <h2>Please enter your user name</h2>
@@ -115,6 +122,11 @@ const onScreenClicked = () => {
         {{ difficulty }}
       </option>>
     </select>
+    <br>
+    <br>
+    <button @click="onScreenClicked">
+      start game
+    </button>
   </div>
 </template>
 

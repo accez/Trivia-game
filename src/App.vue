@@ -1,10 +1,26 @@
 <script setup>
 import StartScreen from './features/StartScreen.vue';
+import { ref, reactive, onMounted } from 'vue'
+import * as databaseHelper from './features/ApiDataFetcher.js';
+
+//Send this data as a prop to questionscomponent
+let questionsData = ref([]);
+
+const fetchQuestions = (url) =>
+{
+  databaseHelper.fetchDataFromApi(url,(fetchedData) =>
+  {
+    questionsData.value = fetchedData;
+    console.log(fetchedData);
+    setTimeout(() => console.log(questionsData.value), 1000)
+  })
+}
+
 </script>
 
 <template>
   <div class="container">
-    <StartScreen />
+    <StartScreen @questionsApiUrl="fetchQuestions" />
   </div>
 </template>
 
