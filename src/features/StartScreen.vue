@@ -24,14 +24,11 @@ let chosenDifficulty = "";
 
 const onDifficultyChanged = (event) => {
   chosenDifficulty = event.target.value;
-  console.log(chosenDifficulty);
 };
 
 const inputedUsername = ref("");
 const onCategoryChanged = (event) => {
-  chosenCategory = event.target.value;
-  console.log(chosenCategory);
-  
+  chosenCategory = event.target.value;  
 };
 
 const onUsernameClicked = () => {
@@ -59,13 +56,7 @@ const onUsernameClicked = () => {
 let questionsApiUrl = "";
 const onScreenClicked = () => {
   //Screen click, switch page if all is filled in.
-  console.log("clicked on screen");
-
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
-  console.log(inputedUsername.value);
-  console.log(chosenCategory);
-  console.log(chosenNumberOfQuestions.value);
-  console.log(chosenDifficulty);
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
