@@ -2,19 +2,28 @@
 import { onMounted, onUpdated, ref } from 'vue';
 const answers = ref([])
 const props = defineProps({
-    results:{
-        type:Array,
-        required:true
-    },
-    currentQuestion:{
-        type:Number,
-        required: true
-    }
+ results:{
+  type:Array,
+  required:true
+ },
+ currentQuestion:{
+  type:Number,
+  required: true
+ }
+})
+
+const shuffleAnswers = (array) =>{
+ return array.sort( ()=>Math.random()-0.5 );
+}
+
+
+onMounted(() =>{
+ answers.value = [...props.results[props.currentQuestion].incorrect_answers,props.results[props.currentQuestion].correct_answer]
+ shuffleAnswers(answers.value)
 })
 
 onUpdated(()=>{
-answers.value = [...props.results[props.currentQuestion].incorrect_answers,props.results[props.currentQuestion].correct_answer]
-console.log(question.value)
+
 })
 
 </script>
@@ -22,7 +31,7 @@ console.log(question.value)
 <template>
   <h3>{{ props.results[currentQuestion].question }}</h3>
   <button
-    v-for="(answer, i) in answers[0]"
+    v-for="(answer, i) in answers"
     :key="i"
   >
     {{ answer }}
