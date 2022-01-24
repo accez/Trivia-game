@@ -1,10 +1,12 @@
 <script setup>
 import StartScreen from './features/StartScreen.vue';
+import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
 import { ref, reactive, onMounted } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questionscomponent
 let questionsData = ref([]);
+const startScreen = ref(false);
 
 const fetchQuestions = (url) =>
 {
@@ -20,7 +22,11 @@ const fetchQuestions = (url) =>
 
 <template>
   <div class="container">
-    <StartScreen @questionsApiUrl="fetchQuestions" />
+    <StartScreen
+      v-if="startScreen"
+      @questionsApiUrl="fetchQuestions"
+    />
+    <QuestionScreen v-else />
   </div>
 </template>
 
