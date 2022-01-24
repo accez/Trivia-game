@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
 const emits = defineEmits(['questionsApiUrl']);
@@ -12,8 +12,8 @@ databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) =
   {
     categories.value.push(category.name);
     categoriesKeyValuePair[category.name] = category.id;
-  })
-})
+  });
+});
 
 let chosenCategory = "";
 const chosenNumberOfQuestions = ref("");
@@ -25,14 +25,14 @@ let chosenDifficulty = "";
 const onDifficultyChanged = (event) => {
   chosenDifficulty = event.target.value;
   console.log(chosenDifficulty);
-}
+};
 
 const inputedUsername = ref("");
 const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;
   console.log(chosenCategory);
   
-}
+};
 
 const onUsernameClicked = () => {
 
@@ -54,7 +54,7 @@ const onUsernameClicked = () => {
       databaseHelper.post(inputedUsername.value,0);
     }
   });
-}
+};
 
 let questionsApiUrl = "";
 const onScreenClicked = () => {
@@ -73,13 +73,13 @@ const onScreenClicked = () => {
   }
   else
   {
-    alert("Please fill in all choices!")
+    alert("Please fill in all choices!");
   }
-}
+};
 
 const validateUsernameInput = () => {
   
-}
+};
 </script>
 
 <template>
