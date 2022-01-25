@@ -14,10 +14,14 @@ const isFetching = ref(true);
 const userAnswer = ref([]);
 let currentUserId;
 let questionsURL;
+let currentUserScore;
 
-const getCurrentUserId = (userId) =>
+const setCurrentUserData = (userId,userScore) =>
 {
   currentUserId = userId;
+  currentUserScore = userScore;
+  console.log("Id: " + currentUserId);
+  console.log("Score: " + currentUserScore);
 };
 
 const fetchQuestions = (url) =>
@@ -82,7 +86,7 @@ const onToStartScreen = () =>{
       v-if="isStartScreen"
       @questions-api-url="fetchQuestions"
       @is-start-screen="startScreenNotShowing"
-      @current-user-id="getCurrentUserId"
+      @current-user-data="setCurrentUserData"
     />
     <div v-else-if="isFetching === true">
       loading...

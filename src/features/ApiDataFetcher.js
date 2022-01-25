@@ -30,7 +30,7 @@ export function post(username,score,idCallback)
       return response.json();
     })
     .then(newUser => {
-      idCallback(newUser.id);
+      idCallback(newUser.id,newUser.highScore);
       console.log(newUser);
     })
     .catch(error => {
