@@ -35,7 +35,14 @@ const onCategoryChanged = (event) => {
 
 let currentUserId;
 let questionsApiUrl = "";
-const onScreenClicked = () => {
+function onScreenClicked(element){
+  if(elementClicked)
+  {
+    elementClicked = false;  
+    return;
+  } 
+    
+
   let userExist = false;
   databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
     data.forEach(element => {
@@ -69,16 +76,25 @@ const onScreenClicked = () => {
   }
   else
   {
-    alert("Please fill in all choices!");
+    setTimeout(() => {
+      if(element === "start") return;
+      alert("Please fill in all choices!");
+    }, 200);
   }
 };
 
+const startElement = "start";
+let elementClicked;
+const onElementClicked = () =>
+{
+  elementClicked = true;
+};
 </script>
 
 <template>
   <div
     class="screen-div"
-    @click="bla"
+    @click="onScreenClicked"
   >
     <h1> Start Screen </h1>
     <h2>Please enter your user name</h2>
@@ -86,11 +102,13 @@ const onScreenClicked = () => {
       v-model="inputedUsername"
       type="text"
       @keyup="validateUsernameInput"
+      @click="onElementClicked"
     >
     <h3>Select Category</h3>
     <select
       name="select-category"
       @change="onCategoryChanged"
+      @click="onElementClicked"
     >
       <option value="">
         Choose
@@ -109,12 +127,14 @@ const onScreenClicked = () => {
       type="number"
       max="50"
       min="1"
+      @click="onElementClicked"
     >
 
     <h3>Select Difficulty</h3>
     <select
       name="select-difficulty"
       @change="onDifficultyChanged"
+      @click="onElementClicked"
     >
       <option value="">
         Choose
@@ -128,7 +148,7 @@ const onScreenClicked = () => {
     </select>
     <br>
     <br>
-    <button @click="onScreenClicked">
+    <button @click="onScreenClicked(startElement)">
       start game
     </button>
   </div>
