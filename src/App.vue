@@ -2,6 +2,7 @@
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
 import ResultScreen from './features/ResultScreen/ResultScreen.vue';
+import ReplayComponent from './features/ResultScreen/ReplayComponent.vue';
 import { createRenderer, ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
@@ -67,10 +68,12 @@ const isDataFetched = (data) =>{
     <div v-else-if="isFetching === true">
       loading...
     </div>
-    <ResultScreen
-      v-else-if="isResultScreen"
-      :question-data="questionsData"
-    />
+    <div v-else-if="isResultScreen">
+      <ResultScreen
+        :question-data="questionsData"
+      />
+      <ReplayComponent />
+    </div>
     <QuestionScreen
       v-else-if="isStartScreen === false"
       :question-data="questionsData"
