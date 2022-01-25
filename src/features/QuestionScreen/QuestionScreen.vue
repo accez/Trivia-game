@@ -1,6 +1,6 @@
 <script setup>
 import QuestionComponent from './QuestionComponent.vue';
-import {onBeforeMount,reactive,ref } from 'vue';
+import {onBeforeMount,ref } from 'vue';
 
 const props = defineProps({
   questionData:{
@@ -13,10 +13,7 @@ const emits = defineEmits(['is-result-screen']);
 
 const currentQuestion = ref(0);
 const answers = ref([]);
-const scoreAndAnswer = reactive({
-  answer: [],
-  score: 0
-});
+const userAnswer = ref([]);
 
 /**
  * Adds answers to given array
@@ -39,12 +36,13 @@ const changeQuestion = () =>{
     let changedArray = addAnswersToArray(answers.value,props.questionData.results[currentQuestion.value].incorrect_answers,props.questionData.results[currentQuestion.value].correct_answer);
     shuffleAnswers(changedArray);
   }else{
-    emits("is-result-screen");
+    emits("is-result-screen",userAnswer.value);
   }
 };
 
-const emit = () =>{
+const emit = (value) =>{
   changeQuestion();
+  userAnswer.value = value;
 };
 
 /**
@@ -68,7 +66,6 @@ onBeforeMount(() =>{
   <QuestionComponent
     :answers="answers"
     :question="props.questionData.results[currentQuestion].question"
-    :correct-answer="props.questionData.results[currentQuestion].correct_answer"
     @clicked="emit"
   />
 </template>

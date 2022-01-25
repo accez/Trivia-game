@@ -1,7 +1,8 @@
 <script setup>
-import { onUpdated } from "@vue/runtime-core";
+import { onUpdated,ref } from "@vue/runtime-core";
 
 const emit = defineEmits(['clicked']);
+const userAnswer = ref([]);
 const props = defineProps({
   answers:{
     type:Array,
@@ -10,17 +11,13 @@ const props = defineProps({
   question:{
     type: String,
     required:true
-  },
-  correctAnswer:{
-    type:String,
-    required:true
   }
 });
 
 const handleClick = (event) =>{
-  emit('clicked');
-  console.log(props.correctAnswer);
-  console.log(event.value.innerHTML);
+  event.target.innerHTML;
+  userAnswer.value.push(event.target.innerHTML);
+  emit('clicked',userAnswer.value);
 };
 
 /**

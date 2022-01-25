@@ -2,7 +2,7 @@
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
 import ResultScreen from './features/ResultScreen/ResultScreen.vue';
-import { createRenderer, ref } from 'vue';
+import { ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questions component
@@ -10,6 +10,7 @@ let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isResultScreen = ref(false);
 const isFetching = ref(true);
+const userAnswer = ref([]);
 let currentUserId;
 
 const getCurrentUserId = (userId) =>
@@ -35,9 +36,11 @@ const startScreenNotShowing = () =>{
 
 /**
  * Set isResultScreen to true to display the ResultScreen
+ * Also gets the user choices
  */
-const setResultScreen = () =>{
+const setResultScreen = (value) =>{
   isResultScreen.value = true;
+  userAnswer.value = value;
 };
 
 /**
@@ -70,6 +73,7 @@ const isDataFetched = (data) =>{
     <ResultScreen
       v-else-if="isResultScreen"
       :question-data="questionsData"
+      :user-answer="userAnswer"
     />
     <QuestionScreen
       v-else-if="isStartScreen === false"
