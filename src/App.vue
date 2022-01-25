@@ -1,12 +1,14 @@
 <script setup>
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
+import ResultScreen from './features/ResultScreen/ResultScreen.vue';
 import { ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questions component
 let questionsData =  ref([]);
 const isStartScreen = ref(true);
+const isResultScreen = ref(false);
 const isFetching = ref(true);
 
 const fetchQuestions = (url) =>
@@ -23,6 +25,13 @@ const fetchQuestions = (url) =>
  */
 const startScreenNotShowing = () =>{
   return isStartScreen.value = false;
+};
+
+/**
+ * Set isResultScreen to true to display the ResultScreen
+ */
+const setResultScreen = () =>{
+  isResultScreen.value = true;
 };
 
 /**
@@ -51,9 +60,14 @@ const isDataFetched = (data) =>{
     <div v-else-if="isFetching === true">
       loading...
     </div>
-    <QuestionScreen
-      v-else
+    <ResultScreen
+      v-else-if="isResultScreen"
       :question-data="questionsData"
+    />
+    <QuestionScreen
+      v-else-if="isStartScreen === false"
+      :question-data="questionsData"
+      @is-result-screen="setResultScreen"
     />
   </div>
 </template>
