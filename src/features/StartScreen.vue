@@ -41,36 +41,34 @@ function onScreenClicked(element){
     elementClicked = false;  
     return;
   } 
-    
 
-  let userExist = false;
-  databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
-    data.forEach(element => {
-      if(element.username === inputedUsername.value)
-      {
-        if(inputedUsername.value === "") return;
-        currentUserId = element.id;
-        emits("current-user-id",currentUserId);
-        userExist = true;
-      }
-    });
-
-    if(!userExist)
-    {
-      if(inputedUsername.value === "") return;
-      console.log("New user  " + inputedUsername.value);
-      databaseHelper.post(inputedUsername.value,0, (newUserId) => {
-        currentUserId = newUserId;
-        emits("current-user-id",currentUserId);
-      });
-    }
-  });
-
-
-  //Screen click, switch page if all is filled in.
-  questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
+    if(element === "start") return;
+    let userExist = false;
+    databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
+      data.forEach(element => {
+        if(element.username === inputedUsername.value)
+        {
+          if(inputedUsername.value === "") return;
+          currentUserId = element.id;
+          emits("current-user-id",currentUserId);
+          userExist = true;
+        }
+      });
+  
+      if(!userExist)
+      {
+        if(inputedUsername.value === "") return;
+        console.log("New user  " + inputedUsername.value);
+        databaseHelper.post(inputedUsername.value,0, (newUserId) => {
+          currentUserId = newUserId;
+          emits("current-user-id",currentUserId);
+        });
+      }
+    });
+    
+    questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
     emits('questions-api-url', questionsApiUrl);
     emits("is-start-screen");
   }

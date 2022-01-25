@@ -1,4 +1,5 @@
 <script setup>
+import ReplayComponent from './features/ResultScreen/ReplayComponent.vue';
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
 import ResultScreen from './features/ResultScreen/ResultScreen.vue';
@@ -12,6 +13,7 @@ const isResultScreen = ref(false);
 const isFetching = ref(true);
 const userAnswer = ref([]);
 let currentUserId;
+let questionsURL;
 
 const getCurrentUserId = (userId) =>
 {
@@ -20,10 +22,13 @@ const getCurrentUserId = (userId) =>
 
 const fetchQuestions = (url) =>
 {
+  questionsURL = url;
   databaseHelper.fetchDataFromApi(url,(fetchedData) =>
   {
     questionsData.value = fetchedData;
+    console.log(isFetching.value);
     isDataFetched(questionsData.value);
+    console.log(questionsData.value);
   });
 };
 
@@ -55,6 +60,18 @@ const isDataFetched = (data) =>{
   if(data.results.length > 0){
     isFetching.value = false;
   }
+};
+
+const onReplay = () =>{
+  isResultScreen.value = false;
+  isFetching.value = true;
+  fetchQuestions(questionsURL);
+};
+
+const onToStartScreen = () =>{
+  isResultScreen.value = false;
+  isStartScreen.value = true;
+  isFetching.value = true;
 };
 
 </script> 
