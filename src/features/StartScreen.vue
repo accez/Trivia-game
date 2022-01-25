@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, defineComponent } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
-const emits = defineEmits(['questionsApiUrl',"is-start-screen"]);
+const emits = defineEmits(['questionsApiUrl',"is-start-screen", "current-user-id"]);
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -31,6 +31,7 @@ const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;  
 };
 
+let currentUserId;
 const onUsernameClicked = () => {
 
   let userExist = false;
@@ -40,6 +41,7 @@ const onUsernameClicked = () => {
       {
         if(inputedUsername.value === "") return;
         alert("Welcome back " + inputedUsername.value + "!");
+        currentUserId = element.id;
         userExist = true;
       }
     });
@@ -48,7 +50,9 @@ const onUsernameClicked = () => {
     {
       if(inputedUsername.value === "") return;
       alert("Welcome " + inputedUsername.value);
-      databaseHelper.post(inputedUsername.value,0);
+      databaseHelper.post(inputedUsername.value,0, (newUserId) => {
+        currentUserId = newUserId;
+      });
     }
   });
 };
@@ -61,6 +65,7 @@ const onScreenClicked = () => {
   {
     emits('questionsApiUrl', questionsApiUrl);
     emits("is-start-screen");
+    emits("current-user-id",currentUserId);
   }
   else
   {

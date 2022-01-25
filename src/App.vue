@@ -8,6 +8,13 @@ import * as databaseHelper from './features/ApiDataFetcher.js';
 let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isFetching = ref(true);
+let currentUserId;
+
+const getCurrentUserId = (userId) =>
+{
+  currentUserId = userId;
+  console.log(currentUserId + "user id");
+};
 
 const fetchQuestions = (url) =>
 {
@@ -47,6 +54,7 @@ const isDataFetched = (data) =>{
       v-if="isStartScreen"
       @questionsApiUrl="fetchQuestions"
       @is-start-screen="startScreenNotShowing"
+      @current-user-id="getCurrentUserId"
     />
     <div v-else-if="isFetching === true">
       loading...
