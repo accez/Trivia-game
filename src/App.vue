@@ -25,7 +25,9 @@ const fetchQuestions = (url) =>
   databaseHelper.fetchDataFromApi(url,(fetchedData) =>
   {
     questionsData.value = fetchedData;
+    console.log(isFetching.value);
     isDataFetched(questionsData.value);
+    console.log(questionsData.value);
   });
 };
 
@@ -58,8 +60,17 @@ const isDataFetched = (data) =>{
 };
 
 const onReplay = () =>{
-  console.log("replay time");
+  isResultScreen.value = false;
+  isFetching.value = true;
+  fetchQuestions(questionsURL);
 };
+
+const onToStartScreen = () =>{
+  isResultScreen.value = false;
+  isStartScreen.value = true;
+  isFetching.value = true;
+};
+
 </script> 
 
 <template>
@@ -84,7 +95,10 @@ const onReplay = () =>{
     />
   </div>
 
-  <ReplayComponent @replay="onReplay" />
+  <ReplayComponent
+    @replay="onReplay"
+    @to-start-screen="onToStartScreen"
+  />
 </template>
 
 <style>
