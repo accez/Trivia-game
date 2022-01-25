@@ -34,6 +34,7 @@ export function post(username,score,idCallback)
       console.log(newUser);
     })
     .catch(error => {
+      console.error(error);
     });
 }
 
@@ -64,6 +65,7 @@ export function updateUserScore(id,newScore)
       // updatedUser is the user with the Patched data
     })
     .catch(error => {
+      console.error(error);
     });
 
 }
