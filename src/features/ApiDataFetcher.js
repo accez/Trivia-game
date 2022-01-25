@@ -32,6 +32,7 @@ export function postUser(username,score,callbackId)
       return response.json();
     })
     .then(newUser => {
+<<<<<<< HEAD
       console.log(newUser.id);
       callbackId(newUser.id);
     })
@@ -64,6 +65,10 @@ export function updateUserScore(id,newHighScore)
     })
     .then(updatedUser => {
       // updatedUser is the user with the Patched data
+=======
+      // newUser is the new user with an id
+      console.log(newUser);
+>>>>>>> master
     })
     .catch(error => {
     });

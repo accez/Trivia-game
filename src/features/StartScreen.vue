@@ -1,10 +1,17 @@
 <script setup>
+<<<<<<< HEAD
 import { ref, reactive, onMounted } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
 const emits = defineEmits(['questionsApiUrl','currentUserId']);
 const chosenNumberOfQuestions = ref("");
 let buttonClicked = false;
+=======
+import { ref, reactive, onMounted, defineComponent } from 'vue';
+import * as databaseHelper from './ApiDataFetcher.js';
+
+const emits = defineEmits(['questionsApiUrl',"is-start-screen"]);
+>>>>>>> master
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -18,8 +25,24 @@ databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) =
 });
 
 let chosenCategory = "";
+<<<<<<< HEAD
 const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;
+=======
+const chosenNumberOfQuestions = ref("");
+
+//Todo: difficulty list categories from api and passed into reactive method below.
+const difficultyList = ref(["easy", "medium", "hard"]);
+let chosenDifficulty = "";
+
+const onDifficultyChanged = (event) => {
+  chosenDifficulty = event.target.value;
+};
+
+const inputedUsername = ref("");
+const onCategoryChanged = (event) => {
+  chosenCategory = event.target.value;  
+>>>>>>> master
 };
 
 
@@ -63,6 +86,7 @@ const onScreenClicked = () => {
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questionsApiUrl', questionsApiUrl);
+<<<<<<< HEAD
     emits('currentUserId', currentUserId);
     console.log("Vidare");
   }
@@ -81,6 +105,18 @@ const onScreenClicked = () => {
 
 const onButtonClicked = () => {
   buttonClicked = true;
+=======
+    emits("is-start-screen");
+  }
+  else
+  {
+    alert("Please fill in all choices!");
+  }
+};
+
+const validateUsernameInput = () => {
+  
+>>>>>>> master
 };
 </script>
 

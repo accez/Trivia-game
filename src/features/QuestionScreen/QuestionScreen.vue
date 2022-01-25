@@ -1,47 +1,36 @@
 <script setup>
 import QuestionComponent from './QuestionComponent.vue';
-import {onBeforeMount, reactive,ref } from 'vue';
-const currentQuestion = ref(0);
-const answers = ref([]);
-const questions = reactive({
-  results: [
-    {
-      question:"In the book &quot;The Martian&quot;, how long was Mark Watney trapped on Mars (in Sols)?",
-      correct_answer: "549 Days",
-      incorrect_answers: [
-        "765 Days",
-        "401 Days",
-        "324 Days"
-      ]
-    },
-    {
-      question:"Which of these elements on the Periodic Table is a Noble Gas?",
-      correct_answer:"Neon",
-      incorrect_answers: [
-        "Potassium",
-        "Iodine",
-        "Colbalt"
-      ]
-    },{
-      question:"What bird is born with claws on its wing digits?",
-      correct_answer:"Hoatzin",
-      incorrect_answers: [
-        "Cormorant",
-        "Cassowary",
-        "Secretary bird"
-      ]
-    }
-  ]
+import {onBeforeMount,ref } from 'vue';
+
+const props = defineProps({
+  questionData:{
+    type: Object,
+    required:true
+  }
 });
 
+const currentQuestion = ref(0);
+const answers = ref([]);
+
+/**
+ * Adds answers to given array
+ * 
+ * @param {Array} array The array 
+ * @param {*} incorrectAnswers The incorrect answers
+ * @param {*} correctAnswers The correct answer
+ */
 const addAnswersToArray = (array, incorrectAnswers, correctAnswers) =>{
   return array.value = [...incorrectAnswers,correctAnswers];
 };
 
+/**
+ * Changes the question
+ * Function that changes the question adds the answers to an array and shuffles them.
+ */
 const changeQuestion = () =>{
-  if(currentQuestion.value + 1 < questions.results.length){
+  if(currentQuestion.value + 1 < props.questionData.results.length){
     currentQuestion.value++;
-    let changedArray = addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+    let changedArray = addAnswersToArray(answers.value,props.questionData.results[currentQuestion.value].incorrect_answers,props.questionData.results[currentQuestion.value].correct_answer);
     shuffleAnswers(changedArray);
   }
 };
@@ -50,12 +39,18 @@ const emit = () =>{
   changeQuestion();
 };
 
+/**
+ * Shuffles the answers
+ * 
+ * @param {Array} array The array of answers
+ */
+
 const shuffleAnswers = (array) =>{
-  return array.sort( ()=>Math.random()-0.5 );
+  return array.sort( () => Math.random() - 0.5);
 };
 
 onBeforeMount(() =>{
-  let mountedArray = addAnswersToArray(answers.value,questions.results[currentQuestion.value].incorrect_answers,questions.results[currentQuestion.value].correct_answer);
+  let mountedArray = addAnswersToArray(answers.value,props.questionData.results[currentQuestion.value].incorrect_answers,props.questionData.results[currentQuestion.value].correct_answer);
   shuffleAnswers(mountedArray);
 });
 
@@ -64,7 +59,7 @@ onBeforeMount(() =>{
 <template>
   <QuestionComponent
     :answers="answers"
-    :question="questions.results[currentQuestion].question"
+    :question="props.questionData.results[currentQuestion].question"
     @clicked="emit"
   />
 </template>
