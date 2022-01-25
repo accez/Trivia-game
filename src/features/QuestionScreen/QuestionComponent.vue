@@ -1,5 +1,6 @@
 <script setup>
 import { onUpdated,ref } from "@vue/runtime-core";
+import { decodeHtml } from "../../helper/helper";
 
 const emit = defineEmits(['clicked']);
 const userAnswer = ref([]);
@@ -26,11 +27,7 @@ const handleClick = (event) =>{
  * 
  * @param {String} html The String you want to 
  */
-const decodeHtml = (html)  =>{
-  var txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
-};
+
 
 </script>
 

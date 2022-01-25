@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted,ref } from "@vue/runtime-core";
 import {updateUserScore} from "../ApiDataFetcher.js";
+import { decodeHtml } from "../../helper/helper.js";
 const allDataTogether = ref([]);
 let score = ref(0);
 
@@ -74,8 +75,8 @@ const addToScore = () =>{
       v-for="(items,i) in allDataTogether"
       :key="i"
     >
-      <h3>{{ items.question }}</h3>
-      <p>Correct answer: {{ items.correct_answer }}</p>
+      <h3>{{ decodeHtml(items.question) }}</h3>
+      <p>Correct answer: {{ decodeHtml(items.correct_answer) }}</p>
       <p>Your answer: {{ items.user_input }}</p>
     </div>
   </div>
