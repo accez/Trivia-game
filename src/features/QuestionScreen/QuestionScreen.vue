@@ -8,6 +8,8 @@ const props = defineProps({
     required:true
   }
 });
+const emits = defineEmits(['is-result-screen']);
+
 
 const currentQuestion = ref(0);
 const answers = ref([]);
@@ -36,6 +38,8 @@ const changeQuestion = () =>{
     currentQuestion.value++;
     let changedArray = addAnswersToArray(answers.value,props.questionData.results[currentQuestion.value].incorrect_answers,props.questionData.results[currentQuestion.value].correct_answer);
     shuffleAnswers(changedArray);
+  }else{
+    emits("is-result-screen");
   }
 };
 
