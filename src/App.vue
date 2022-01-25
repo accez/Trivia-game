@@ -94,11 +94,6 @@ const onToStartScreen = () =>{
       @is-result-screen="setResultScreen"
     />
   </div>
-
-  <ReplayComponent
-    @replay="onReplay"
-    @to-start-screen="onToStartScreen"
-  />
 </template>
 
 <style>
