@@ -1,4 +1,6 @@
 <script setup>
+import { onUpdated } from "@vue/runtime-core";
+
 const emit = defineEmits(['clicked']);
 const props = defineProps({
   answers:{
@@ -8,12 +10,17 @@ const props = defineProps({
   question:{
     type: String,
     required:true
+  },
+  correctAnswer:{
+    type:String,
+    required:true
   }
 });
 
-const handleClick = () =>{
+const handleClick = (event) =>{
   emit('clicked');
-
+  console.log(props.correctAnswer);
+  console.log(event.value.innerHTML);
 };
 
 /**
@@ -37,7 +44,7 @@ const decodeHtml = (html)  =>{
     :key="i"
     @click="handleClick"
   >
-    {{ answer }}
+    {{ decodeHtml(answer) }}
   </button>
 </template>
 

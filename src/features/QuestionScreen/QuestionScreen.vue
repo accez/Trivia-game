@@ -1,6 +1,6 @@
 <script setup>
 import QuestionComponent from './QuestionComponent.vue';
-import {onBeforeMount,ref } from 'vue';
+import {onBeforeMount,reactive,ref } from 'vue';
 
 const props = defineProps({
   questionData:{
@@ -11,6 +11,10 @@ const props = defineProps({
 
 const currentQuestion = ref(0);
 const answers = ref([]);
+const scoreAndAnswer = reactive({
+  answer: [],
+  score: 0
+});
 
 /**
  * Adds answers to given array
@@ -60,6 +64,7 @@ onBeforeMount(() =>{
   <QuestionComponent
     :answers="answers"
     :question="props.questionData.results[currentQuestion].question"
+    :correct-answer="props.questionData.results[currentQuestion].correct_answer"
     @clicked="emit"
   />
 </template>
