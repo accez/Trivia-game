@@ -44,6 +44,7 @@ function onScreenClicked(element){
 
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
+    if(element === "start") return;
     let userExist = false;
     databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
       data.forEach(element => {
