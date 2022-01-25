@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, defineComponent } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
-const emits = defineEmits(['questionsApiUrl',"is-start-screen", "current-user-id"]);
+const emits = defineEmits(['questions-api-url',"is-start-screen", "current-user-id"]);
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -63,7 +63,7 @@ const onScreenClicked = () => {
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
-    emits('questionsApiUrl', questionsApiUrl);
+    emits('questions-api-url', questionsApiUrl);
     emits("is-start-screen");
     emits("current-user-id",currentUserId);
   }

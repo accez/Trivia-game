@@ -52,7 +52,7 @@ const isDataFetched = (data) =>{
   <div class="container">
     <StartScreen
       v-if="isStartScreen"
-      @questionsApiUrl="fetchQuestions"
+      @questions-api-url="fetchQuestions"
       @is-start-screen="startScreenNotShowing"
       @current-user-id="getCurrentUserId"
     />
