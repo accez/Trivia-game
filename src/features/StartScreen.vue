@@ -31,17 +31,19 @@ const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;  
 };
 
-let currentUserId;
-const onUsernameClicked = () => {
 
+
+let currentUserId;
+let questionsApiUrl = "";
+const onScreenClicked = () => {
   let userExist = false;
   databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
     data.forEach(element => {
       if(element.username === inputedUsername.value)
       {
         if(inputedUsername.value === "") return;
-        alert("Welcome back " + inputedUsername.value + "!");
         currentUserId = element.id;
+        emits("current-user-id",currentUserId);
         userExist = true;
       }
     });
@@ -49,23 +51,21 @@ const onUsernameClicked = () => {
     if(!userExist)
     {
       if(inputedUsername.value === "") return;
-      alert("Welcome " + inputedUsername.value);
+      console.log("New user  " + inputedUsername.value);
       databaseHelper.post(inputedUsername.value,0, (newUserId) => {
         currentUserId = newUserId;
+        emits("current-user-id",currentUserId);
       });
     }
   });
-};
 
-let questionsApiUrl = "";
-const onScreenClicked = () => {
+
   //Screen click, switch page if all is filled in.
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
     emits('questions-api-url', questionsApiUrl);
     emits("is-start-screen");
-    emits("current-user-id",currentUserId);
   }
   else
   {
@@ -73,9 +73,6 @@ const onScreenClicked = () => {
   }
 };
 
-const validateUsernameInput = () => {
-  
-};
 </script>
 
 <template>
@@ -90,10 +87,6 @@ const validateUsernameInput = () => {
       type="text"
       @keyup="validateUsernameInput"
     >
-    <button @click="onUsernameClicked">
-      Enter
-    </button>
-
     <h3>Select Category</h3>
     <select
       name="select-category"

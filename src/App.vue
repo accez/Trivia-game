@@ -1,7 +1,7 @@
 <script setup>
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
-import { ref } from 'vue';
+import { createRenderer, ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questions component
@@ -13,7 +13,6 @@ let currentUserId;
 const getCurrentUserId = (userId) =>
 {
   currentUserId = userId;
-  console.log(currentUserId + "user id");
 };
 
 const fetchQuestions = (url) =>
