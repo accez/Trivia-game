@@ -11,17 +11,16 @@ let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isResultScreen = ref(false);
 const isFetching = ref(true);
+const isUserIDFetched = ref(true);
 const userAnswer = ref([]);
-let currentUserId;
+let currentUserId = ref(0);
 let questionsURL;
-let currentUserScore;
+let currentUserScore = ref(0);
 
 const setCurrentUserData = (userId,userScore) =>
 {
-  currentUserId = userId;
-  currentUserScore = userScore;
-  console.log("Id: " + currentUserId);
-  console.log("Score: " + currentUserScore);
+  currentUserId.value = userId;
+  currentUserScore.value = userScore;
 };
 
 const fetchQuestions = (url) =>
@@ -30,9 +29,7 @@ const fetchQuestions = (url) =>
   databaseHelper.fetchDataFromApi(url,(fetchedData) =>
   {
     questionsData.value = fetchedData;
-    console.log(isFetching.value);
     isDataFetched(questionsData.value);
-    console.log(questionsData.value);
   });
 };
 
@@ -91,11 +88,18 @@ const onToStartScreen = () =>{
     <div v-else-if="isFetching === true">
       loading...
     </div>
-    <ResultScreen
-      v-else-if="isResultScreen"
-      :question-data="questionsData"
-      :user-answer="userAnswer"
-    />
+    <div v-else-if="isResultScreen">
+      <ResultScreen
+        :question-data="questionsData"
+        :user-answer="userAnswer"
+        :current-user-id="currentUserId"
+        :current-user-score="currentUserScore"
+      />
+      <ReplayComponent
+        @to-start-screen="onToStartScreen"
+        @replay="onReplay"
+      />
+    </div>
     <QuestionScreen
       v-else-if="isStartScreen === false"
       :question-data="questionsData"

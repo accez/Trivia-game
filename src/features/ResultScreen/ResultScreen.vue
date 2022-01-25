@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted,ref } from "@vue/runtime-core";
+import {updateUserScore} from "../ApiDataFetcher.js";
 const allDataTogether = ref([]);
 let score = ref(0);
 
@@ -11,12 +12,23 @@ const props = defineProps({
   userAnswer:{
     type:Array,
     required:true
+  },
+  currentUserId:{
+    type: Number,
+    required:true
+  },
+  currentUserScore:{
+    type:Number,
+    required: true
   }
 });
 
 onMounted(() =>{
   addAllDataToOneObject();
   addToScore();
+  if(score.value > props.currentUserScore){
+    updateUserScore(props.currentUserId,score.value);
+  }
 });
 
 
