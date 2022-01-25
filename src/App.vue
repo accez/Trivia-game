@@ -6,7 +6,7 @@ import ResultScreen from './features/ResultScreen/ResultScreen.vue';
 import { ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
-//Send this data as a prop to questions component
+
 let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isResultScreen = ref(false);
@@ -17,12 +17,13 @@ let currentUserId = ref(0);
 let questionsURL;
 let currentUserScore = ref(0);
 
+// Data emited from StartScreen being cached in variables
 const setCurrentUserData = (userId,userScore) =>
 {
   currentUserId.value = userId;
   currentUserScore.value = userScore;
 };
-
+// Fetches questions from the given url parameter and caches it in the questionsData variable
 const fetchQuestions = (url) =>
 {
   questionsURL = url;
@@ -63,12 +64,14 @@ const isDataFetched = (data) =>{
   }
 };
 
+// Switches views when the replay button is clicked.
 const onReplay = () =>{
   isResultScreen.value = false;
   isFetching.value = true;
   fetchQuestions(questionsURL);
 };
 
+// Switches to the start screen when back to start screen button is pressed in result screen page.
 const onToStartScreen = () =>{
   isResultScreen.value = false;
   isStartScreen.value = true;

@@ -1,3 +1,4 @@
+// Fetches data from given api-url and invokes a callback with that data as a parameter.
 export function fetchDataFromApi(apiUrl, callBack)
 {
   fetch(apiUrl).then((response) => {
@@ -7,6 +8,7 @@ export function fetchDataFromApi(apiUrl, callBack)
   });
 }
 
+//post a user to the user-database and invokes a callback with some userdata.
 export function post(username,score,idCallback)
 {
   const apiURL = 'https://trivia-game-users.herokuapp.com';
@@ -37,6 +39,7 @@ export function post(username,score,idCallback)
     });
 }
 
+// Updates the database with a users new score.
 export function updateUserScore(id,newScore)
 {
   const apiURL = 'https://trivia-game-users.herokuapp.com';
