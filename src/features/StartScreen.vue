@@ -60,7 +60,6 @@ function onScreenClicked(element){
       if(!userExist)
       {
         if(inputedUsername.value === "") return;
-        console.log("New user  " + inputedUsername.value);
         databaseHelper.post(inputedUsername.value,0, (newUserId,newScore) => {
           currentUserId = newUserId;
           emits("current-user-data",currentUserId, newScore);

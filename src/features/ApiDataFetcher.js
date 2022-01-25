@@ -31,7 +31,6 @@ export function post(username,score,idCallback)
     })
     .then(newUser => {
       idCallback(newUser.id,newUser.highScore);
-      console.log(newUser);
     })
     .catch(error => {
       console.error(error);
