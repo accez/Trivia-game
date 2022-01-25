@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, defineComponent } from 'vue';
 import * as databaseHelper from './ApiDataFetcher.js';
 
-const emits = defineEmits(['questionsApiUrl',"is-start-screen"]);
+const emits = defineEmits(['questions-api-url',"is-start-screen", "current-user-id"]);
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
@@ -31,7 +31,17 @@ const onCategoryChanged = (event) => {
   chosenCategory = event.target.value;  
 };
 
-const onUsernameClicked = () => {
+
+
+let currentUserId;
+let questionsApiUrl = "";
+function onScreenClicked(element){
+  if(elementClicked)
+  {
+    elementClicked = false;  
+    return;
+  } 
+    
 
   let userExist = false;
   databaseHelper.fetchDataFromApi("https://trivia-game-users.herokuapp.com/trivia", (data) => {
@@ -39,7 +49,8 @@ const onUsernameClicked = () => {
       if(element.username === inputedUsername.value)
       {
         if(inputedUsername.value === "") return;
-        alert("Welcome back " + inputedUsername.value + "!");
+        currentUserId = element.id;
+        emits("current-user-id",currentUserId);
         userExist = true;
       }
     });
@@ -47,36 +58,43 @@ const onUsernameClicked = () => {
     if(!userExist)
     {
       if(inputedUsername.value === "") return;
-      alert("Welcome " + inputedUsername.value);
-      databaseHelper.post(inputedUsername.value,0);
+      console.log("New user  " + inputedUsername.value);
+      databaseHelper.post(inputedUsername.value,0, (newUserId) => {
+        currentUserId = newUserId;
+        emits("current-user-id",currentUserId);
+      });
     }
   });
-};
 
-let questionsApiUrl = "";
-const onScreenClicked = () => {
+
   //Screen click, switch page if all is filled in.
   questionsApiUrl = `https://opentdb.com/api.php?amount=${chosenNumberOfQuestions.value}&category=${categoriesKeyValuePair[chosenCategory]}&difficulty=${chosenDifficulty}`;
   if(chosenCategory !== "" && chosenDifficulty !== "" && inputedUsername.value !== "" && chosenNumberOfQuestions.value  > 0)
   {
-    emits('questionsApiUrl', questionsApiUrl);
+    emits('questions-api-url', questionsApiUrl);
     emits("is-start-screen");
   }
   else
   {
-    alert("Please fill in all choices!");
+    setTimeout(() => {
+      if(element === "start") return;
+      alert("Please fill in all choices!");
+    }, 200);
   }
 };
 
-const validateUsernameInput = () => {
-  
+const startElement = "start";
+let elementClicked;
+const onElementClicked = () =>
+{
+  elementClicked = true;
 };
 </script>
 
 <template>
   <div
     class="screen-div"
-    @click="bla"
+    @click="onScreenClicked"
   >
     <h1> Start Screen </h1>
     <h2>Please enter your user name</h2>
@@ -84,15 +102,13 @@ const validateUsernameInput = () => {
       v-model="inputedUsername"
       type="text"
       @keyup="validateUsernameInput"
+      @click="onElementClicked"
     >
-    <button @click="onUsernameClicked">
-      Enter
-    </button>
-
     <h3>Select Category</h3>
     <select
       name="select-category"
       @change="onCategoryChanged"
+      @click="onElementClicked"
     >
       <option value="">
         Choose
@@ -111,12 +127,14 @@ const validateUsernameInput = () => {
       type="number"
       max="50"
       min="1"
+      @click="onElementClicked"
     >
 
     <h3>Select Difficulty</h3>
     <select
       name="select-difficulty"
       @change="onDifficultyChanged"
+      @click="onElementClicked"
     >
       <option value="">
         Choose
@@ -130,7 +148,7 @@ const validateUsernameInput = () => {
     </select>
     <br>
     <br>
-    <button @click="onScreenClicked">
+    <button @click="onScreenClicked(startElement)">
       start game
     </button>
   </div>

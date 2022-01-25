@@ -2,7 +2,7 @@
 import StartScreen from './features/StartScreen.vue';
 import QuestionScreen from './features/QuestionScreen/QuestionScreen.vue';
 import ResultScreen from './features/ResultScreen/ResultScreen.vue';
-import { ref } from 'vue';
+import { createRenderer, ref } from 'vue';
 import * as databaseHelper from './features/ApiDataFetcher.js';
 
 //Send this data as a prop to questions component
@@ -10,6 +10,12 @@ let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isResultScreen = ref(false);
 const isFetching = ref(true);
+let currentUserId;
+
+const getCurrentUserId = (userId) =>
+{
+  currentUserId = userId;
+};
 
 const fetchQuestions = (url) =>
 {
@@ -54,8 +60,9 @@ const isDataFetched = (data) =>{
   <div class="container">
     <StartScreen
       v-if="isStartScreen"
-      @questionsApiUrl="fetchQuestions"
+      @questions-api-url="fetchQuestions"
       @is-start-screen="startScreenNotShowing"
+      @current-user-id="getCurrentUserId"
     />
     <div v-else-if="isFetching === true">
       loading...
