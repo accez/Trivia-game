@@ -6,7 +6,7 @@ const emits = defineEmits(['questions-api-url',"is-start-screen", "current-user-
 
 let categories = ref([]);
 let categoriesKeyValuePair = {};
-
+// Fetches all the categories from trivia api and pushes them to list which is displayed in a dropdown list.
 databaseHelper.fetchDataFromApi("https://opentdb.com/api_category.php", (data) => {
   data.trivia_categories.forEach((category, index) =>
   {
@@ -35,6 +35,9 @@ const onCategoryChanged = (event) => {
 
 let currentUserId;
 let questionsApiUrl = "";
+// This method is invoked when user clicks anywhere on the screen.
+// If user has filled in all the choices, user will be registered in the user database and questions will be fetched from the trivia questions api.
+// Emit events will be invoked with user data. 
 function onScreenClicked(element){
   if(elementClicked)
   {
