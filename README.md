@@ -1,7 +1,40 @@
-# Vue 3 + Vite
+# Trivia game with Vue 3 (Assignment 
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+**Instructions:** Write a working mini-game that prompts users for a difficulty level, how many questions they want and from which category. Display the questions, one at a time and show the results of the answers at the end of the game.
 
-## Recommended IDE Setup
+**Goal:** On completion of this assignment, you will be able to: 
 
+- Create a new Vue (3.x) application using the CLI
+- Use Vue components to build an application
+- Use the Vue Router to navigate between components
+- You must deploy your assignment to a publicly accessible address, i.e. with Gitlab Pages, Heroku, or similar
+ - Optional: You may use Vuex for state management
+
+[Application Demo](https://glacial-journey-04728.herokuapp.com/)
+
+## Component Tree
+![Screenshot](component-tree.png)
+
+
+## Development
+
+```bash
+# Clone project
+git clone https://github.com/accez/Trivia-game.git
+
+# Install dependencies
+npm install
+
+# Run local dev server
+npm run dev
+```
+### Recommended IDE Setup
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+
+## Maintainers
+[@Simon Palmgren](https://github.com/accez)
+
+[@Love Beiling](https://github.com/mikaellove)
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
