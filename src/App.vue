@@ -11,7 +11,6 @@ let questionsData =  ref([]);
 const isStartScreen = ref(true);
 const isResultScreen = ref(false);
 const isFetching = ref(true);
-const isUserIDFetched = ref(true);
 const userAnswer = ref([]);
 let currentUserId = ref(0);
 let questionsURL;
