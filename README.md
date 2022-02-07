@@ -34,7 +34,7 @@ npm run dev
 ## Maintainers
 [@Simon Palmgren](https://github.com/accez)
 
-[@Love Beiling](https://github.com/mikaellove)
+[@Love Beling](https://github.com/mikaellove)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
